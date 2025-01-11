@@ -30,6 +30,7 @@ import cryptoRoutes from './src/Routes/cryptoRoutes.js'
 
 // Routes
 
+app.use('/', cryptoRoutes);
 app.use('/api/cryptos', cryptoRoutes);
 // http://localhost:8000/api/cryptos/*
 
@@ -48,6 +49,13 @@ const run = async () => {
     }
   };
   
+  // Run the function every 2 hours (2 hours = 2 * 60 * 60 * 1000 milliseconds)
+  const TWO_HOURS = 2 * 60 * 60 * 1000;
+  
+  setInterval(run, TWO_HOURS);
+  
+  // Start it immediately
   run();
+  
 
 export { app };
