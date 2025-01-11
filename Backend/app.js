@@ -4,6 +4,8 @@ import cors from 'cors';
 import { configDotenv } from 'dotenv';
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
+import cron from 'node-cron';
+import fetchCryptoData from './src/jobs/fetchCryptoData.js';
 
 
 configDotenv();
@@ -24,11 +26,17 @@ app.use(cookieParser());
 app.use(express.json());
 
 // routes import
-// import userRouter from './src/routes/user.routes.js'
+import cryptoRoutes from './src/Routes/cryptoRoutes.js'
 
 // Routes
 
-// app.use('/api/users', userRouter);
-// http://localhost:8000/api/users/*
+app.use('/api/cryptos', cryptoRoutes);
+// http://localhost:8000/api/cryptos/*
+
+// Schedule the job to run every 2 hours
+cron.schedule('0 */2 * * *', async () => {
+    console.log('Running crypto data fetch job');
+    await fetchCryptoData();
+  });
 
 export { app };
