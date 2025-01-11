@@ -34,9 +34,20 @@ app.use('/api/cryptos', cryptoRoutes);
 // http://localhost:8000/api/cryptos/*
 
 // Schedule the job to run every 2 hours
-cron.schedule('0 */2 * * *', async () => {
-    console.log('Running crypto data fetch job');
-    await fetchCryptoData();
-  });
+// cron.schedule('0 */2 * * *', async () => {
+//     console.log('Running crypto data fetch job');
+//     await fetchCryptoData();
+//   });
+
+const run = async () => {
+    try {
+      console.log('Running crypto data fetch job');
+      await fetchCryptoData();
+    } catch (error) {
+      console.error('Error during fetch:', error);
+    }
+  };
+  
+  run();
 
 export { app };
